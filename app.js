@@ -10,6 +10,7 @@ const exitViewer = document.querySelector('#exitViewer');
 const prevSlide = document.querySelector('#prevSlide');
 const nextSlide = document.querySelector('#nextSlide');
 const music = document.querySelector('#music');
+const musicToggle = document.querySelector('#musicToggle');
 const ambientCanvas = document.querySelector('#ambientCanvas');
 
 const collections = [
@@ -107,15 +108,35 @@ let activeIndex = 0;
 let slideTimer = null;
 let currentAudio = '';
 
+function updateMusicButton() {
+  musicToggle.classList.toggle('playing', !music.paused);
+  musicToggle.setAttribute('aria-label', music.paused ? '播放音乐' : '暂停音乐');
+}
+
 function playAudio(src) {
   if (currentAudio !== src) {
     music.src = src;
     currentAudio = src;
+    music.load();
   }
   music.volume = 0.82;
-  music.play().catch(() => {
-    document.addEventListener('pointerdown', () => music.play(), { once: true });
-  });
+  music.muted = false;
+  music.play().then(updateMusicButton).catch(updateMusicButton);
+}
+
+function toggleMusic() {
+  if (!activeCollection) {
+    playAudio(collections[0].audio);
+    return;
+  }
+
+  if (music.paused) {
+    playAudio(activeCollection.audio);
+    return;
+  }
+
+  music.pause();
+  updateMusicButton();
 }
 
 function renderCards() {
@@ -170,6 +191,12 @@ cardGrid.addEventListener('click', (event) => {
   if (!card) return;
   openCollection(Number(card.dataset.index));
 });
+
+musicToggle.addEventListener('click', toggleMusic);
+music.addEventListener('play', updateMusicButton);
+music.addEventListener('pause', updateMusicButton);
+music.addEventListener('ended', updateMusicButton);
+music.addEventListener('error', updateMusicButton);
 
 exitViewer.addEventListener('click', () => {
   viewer.classList.remove('active');
@@ -237,4 +264,5 @@ function drawAmbient(time) {
 }
 
 renderCards();
+updateMusicButton();
 requestAnimationFrame(drawAmbient);
