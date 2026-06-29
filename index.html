@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Tris New Memory Room</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <audio id="music" preload="auto" loop></audio>
+
+  <section id="entryScreen" class="entry-screen active" aria-label="进入界面">
+    <img src="assets/entry/4.jpg" alt="进入 Tris 记忆界面" />
+    <div class="entry-vignette"></div>
+    <button id="enterBtn" class="entry-hit" type="button" aria-label="点击进入"></button>
+  </section>
+
+  <main id="homeScreen" class="home-screen" aria-label="Tris 神秘记忆界面">
+    <canvas id="ambientCanvas" aria-hidden="true"></canvas>
+    <div class="mist mist-a"></div>
+    <div class="mist mist-b"></div>
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
+
+    <section class="title-block">
+      <p>TRIS MEMORY VAULT</p>
+      <h1>Four hidden rooms</h1>
+    </section>
+
+    <section id="cardGrid" class="card-grid" aria-label="四个记忆卡片"></section>
+  </main>
+
+  <section id="viewer" class="viewer" aria-label="全屏照片播放">
+    <button id="exitViewer" class="exit-btn" type="button">退出</button>
+    <button id="prevSlide" class="nav-btn prev" type="button" aria-label="上一张">‹</button>
+    <img id="viewerImage" src="" alt="记忆照片" />
+    <button id="nextSlide" class="nav-btn next" type="button" aria-label="下一张">›</button>
+    <div class="viewer-info">
+      <span id="viewerTitle">Memory</span>
+      <span id="viewerCount">1 / 1</span>
+    </div>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>
